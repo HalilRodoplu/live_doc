@@ -23,7 +23,6 @@ const Home = async () => {
                     </SignedIn>
                 </div>
             </Header>
-            <div>
                 {documents.length > 0 ? (
                     <div>
 
@@ -43,7 +42,6 @@ const Home = async () => {
                         />
                     </div>
                 )}
-            </div>
         </main>
     );
 };
