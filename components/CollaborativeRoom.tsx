@@ -9,10 +9,11 @@ import ActiveCollaborators from "@/components/ActiveCollaborators";
 import {Input} from "@/components/ui/input";
 import Image from "next/image"
 import {updateDocument} from "@/lib/actions/room.actions";
+import Loader from "@/components/Loader";
+import ShareModal from "@/components/ShareModal";
 
-const CollaborativeRoom = ({roomId, roomMetadata}: CollaborativeRoomProps) => {
+const CollaborativeRoom = ({roomId, roomMetadata, users, currentUserType}: CollaborativeRoomProps) => {
 
-    const currentUserType = "editor"
 
     const [editing, setEditing] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ const CollaborativeRoom = ({roomId, roomMetadata}: CollaborativeRoomProps) => {
 
     return (
             <RoomProvider id={roomId}>
-                <ClientSideSuspense fallback={<div>Loading…</div>}>
+                <ClientSideSuspense fallback={<Loader/>}>
                     <div className="collaborative-room">
                         <Header>
                             <div ref={containerRef} className="flex w-fit items-center justify-center gap-2">
@@ -102,6 +103,12 @@ const CollaborativeRoom = ({roomId, roomMetadata}: CollaborativeRoomProps) => {
                             </div>
                             <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
                                 <ActiveCollaborators/>
+                                <ShareModal
+                                    roomId={roomId}
+                                    collaborators={users}
+                                    creatorId={roomMetadata.creatorId}
+                                    currentUserType={currentUserType}
+                                />
                                 <SignedOut>
                                     <SignInButton />
                                 </SignedOut>
@@ -110,7 +117,7 @@ const CollaborativeRoom = ({roomId, roomMetadata}: CollaborativeRoomProps) => {
                                 </SignedIn>
                             </div>
                         </Header>
-                        <Editor/>
+                        <Editor roomId={roomId} currentUserType={currentUserType}/>
                     </div>
                 </ClientSideSuspense>
             </RoomProvider>
