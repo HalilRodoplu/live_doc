@@ -8,6 +8,7 @@ import {redirect} from "next/navigation";
 import {getDocuments} from "@/lib/actions/room.actions";
 import Link from "next/link";
 import {dateConverter} from "@/lib/utils";
+import {DeleteModal} from "@/components/DeleteModal";
 
 const Home = async () => {
 
@@ -62,7 +63,7 @@ const Home = async () => {
                                             </p>
                                         </div>
                                     </Link>
-                                    {/*TODO Delete btn gonna add*/}
+                                    <DeleteModal roomId={id}/>
                                 </li>
                             ))}
                         </ul>

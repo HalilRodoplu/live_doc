@@ -4,6 +4,7 @@ import {nanoid} from 'nanoid';
 import {liveblocks} from "@/lib/liveblocks";
 import {revalidatePath} from "next/cache";
 import {getAccessType, parseStringify} from "@/lib/utils";
+import {redirect} from "next/navigation";
 
 export const createDocument = async ({userId, email}: CreateDocumentParams) => {
     const roomId = nanoid();
@@ -126,4 +127,16 @@ export const removeCollaborator = async ({roomId, email}: { roomId: string, emai
     } catch (error) {
         console.log("removeCollaborator function couldn't work correctly------", error)
     }
+}
+
+export const deleteDocument = async (roomId: string) => {
+
+    try {
+        await liveblocks.deleteRoom(roomId)
+        revalidatePath("/")
+
+    } catch (error) {
+        console.log("Error happened while deleteDocument-----", error);
+    }
+
 }
